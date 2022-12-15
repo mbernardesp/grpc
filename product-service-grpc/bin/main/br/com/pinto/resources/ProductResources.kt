@@ -9,13 +9,15 @@ import io.micronaut.grpc.annotation.GrpcService
 @GrpcService
 class ProductResources : ProductServiceServiceGrpc.ProductServiceServiceImplBase() {
     override fun send(request: ProductServiceRequest?, responseObserver: StreamObserver<ProductServiceReply>?) {
-        var toSend = request?.name
+        //var toSend = request?.name.toString()
 
-        for (i in 1..10) {
-            toSend += toSend
-        }
+        val list = mutableListOf<String>()
+
+        for (i in 1..10)
+            list.add(request?.name.toString())
+
         val reply = ProductServiceReply.newBuilder()
-            .setMessage(toSend)
+            .setMessage(list.toString())
             .build()
 
         responseObserver?.onNext(reply)
